@@ -7,10 +7,11 @@ import (
 )
 
 const (
-	width        = 5
-	height       = 5
-	seed_percent = 25
-	turn         = 10
+	width        = 100
+	height       = 40
+	seed_percent = 2
+	turn         = 25*10 //50 fps * 10 seconds
+	sleep_ms     = 40
 )
 
 type Universe [][]bool
@@ -19,21 +20,22 @@ type Universe [][]bool
 // print slice to terminal
 func (u Universe) Show() {
 	fmt.Printf("\n")
-	for i := 0; i < width; i++ {
+	for i := 0; i < width*2+2; i++ {
 		fmt.Printf("-")
 	}
 	fmt.Printf("\n")
 	for i := range u {
+		fmt.Printf("|")
 		for _, value := range u[i] {
 			if value { //if cell is alive
-				fmt.Printf("*")
+				fmt.Printf("* ")
 			} else {
-				fmt.Printf(" ")
+				fmt.Printf("  ")
 			}
 		}
 		fmt.Printf("|\n")
 	}
-	for i := 0; i < width; i++ {
+	for i := 0; i < width*2+2; i++ {
 		fmt.Printf("-")
 	}
 	fmt.Printf("\n")
@@ -125,6 +127,6 @@ func main() {
 	for t := 0; t < turn; t++ {
 		universe = universe.Next()
 		universe.Show()
-		time.Sleep(time.Millisecond * 500)
+		time.Sleep(time.Millisecond * sleep_ms)
 	}
 }
